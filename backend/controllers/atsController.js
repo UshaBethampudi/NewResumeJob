@@ -15,6 +15,26 @@ const getSuggestions = (resumeText, jobDescriptionText) => {
   ];
 };
 
+const enhanceResume = (resumeText, suggestions) => {
+  // Placeholder for resume enhancement logic.
+  // In a real application, you would parse the resume sections
+  // and intelligently insert the suggestions.
+  let enhancedResume = resumeText;
+
+  if (suggestions.includes('Add more skills from the job description.')) {
+    enhancedResume += '\n\n**Skills Section Enhanced**\n- Added Skill A, Skill B, Skill C';
+  }
+  if (suggestions.includes('Include a professional summary.')) {
+    enhancedResume = '**Professional Summary**\n[Your compelling professional summary goes here, highlighting your key qualifications and career goals.]\n\n' + enhancedResume;
+  }
+  if (suggestions.includes('Quantify your achievements with numbers.')) {
+    // This is harder to automate, we'll just add a note.
+    enhancedResume += '\n\n**Note on Achievements**\n- Remember to quantify achievements in your experience section (e.g., "Increased sales by 20%").';
+  }
+
+  return enhancedResume;
+};
+
 export const scoreResume = async (req, res) => {
   try {
     const { jobDescription } = req.body;
@@ -42,8 +62,10 @@ export const scoreResume = async (req, res) => {
 
     const score = calculateAtsScore(resumeText, jobDescription);
     const suggestions = getSuggestions(resumeText, jobDescription);
+    const enhancedResume = enhanceResume(resumeText, suggestions);
 
-    res.status(200).json({ score, suggestions });
+    // Ensure this line is exactly as follows
+    res.status(200).json({ score, suggestions, originalResume: resumeText, enhancedResume });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });

@@ -8,6 +8,7 @@ const AtsScorer = () => {
   const [jobDescription, setJobDescription] = useState('');
   const [score, setScore] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
+  const [enhancedResume, setEnhancedResume] = useState('');
 
   const handleFileChange = (e) => {
     setResume(e.target.files[0]);
@@ -27,6 +28,7 @@ const AtsScorer = () => {
       });
       setScore(res.data.score);
       setSuggestions(res.data.suggestions);
+      setEnhancedResume(res.data.enhancedResume);
     } catch (error) {
       console.error(error);
     }
@@ -65,6 +67,14 @@ const AtsScorer = () => {
                 <li key={index}>{suggestion}</li>
               ))}
             </ul>
+            <div className="mt-8">
+              <div>
+                <h3 className="text-xl font-bold mb-2">Enhanced Resume</h3>
+                <pre className="p-4 bg-green-50 rounded-lg whitespace-pre-wrap font-sans text-sm h-96 overflow-auto">
+                  {enhancedResume}
+                </pre>
+              </div>
+            </div>
           </div>
         )}
       </div>
