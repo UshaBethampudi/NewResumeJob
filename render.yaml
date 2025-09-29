@@ -1,0 +1,32 @@
+
+services:
+  - type: web
+    name: resume-job-backend
+    env: node
+    rootDir: backend
+    plan: free
+    buildCommand: "npm install"
+    startCommand: "npm start"
+    envVars:
+      - key: MONGO_URI
+        value: "mongodb+srv://ushasravanthi09_db_user:Ushakuchi12345@cluster0.mongodb.net/resume_builder?retryWrites=true&w=majority"
+      - key: EMAIL_USER
+        value: "ushasravanthi09@gmail.com"
+      - key: EMAIL_PASS
+        value: "Ushakuchi12345"
+      - key: PORT
+        value: 4000
+
+  - type: static
+    name: resume-job-frontend
+    env: static
+    rootDir: frontend
+    plan: free
+    buildCommand: "npm install && npm run build"
+    publishPath: "dist"
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: resume-job-backend
+          property: url
