@@ -1,12 +1,19 @@
 import mongoose from 'mongoose';
 import Application from '../models/Application.js';
-
 import { jobExamples } from '../data/jobs.js';
+import { sendApplicationConfirmation } from '../utils/email.js';
 
 const createApplication = async (req, res) => {
   try {
     const application = new Application(req.body);
     await application.save();
+    
+    // Send confirmation email after successful application
+    const job = jobExamples.find(j => j._id.toString() === application.jobId);
+    if (job && application.email) {
+      sendApplicationConfirmation(application.email, job.jobTitle);
+    }
+    
     res.status(201).json(application);
   } catch (error) {
     res.status(500).json({ message: 'Error creating application', error });
