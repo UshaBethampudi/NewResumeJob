@@ -17,9 +17,8 @@ services:
       - key: PORT
         value: 4000
 
-  - type: static
+  - type: static_site
     name: resume-job-frontend
-    env: static
     rootDir: frontend
     plan: free
     buildCommand: "npm install && npm run build"
