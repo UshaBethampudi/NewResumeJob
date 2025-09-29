@@ -6,6 +6,8 @@ const createApplication = async (req, res) => {
     const application = new Application(req.body);
     await application.save();
 
+    // TODO: Configure email service to send confirmation emails
+    /*
     // Send confirmation email
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -34,6 +36,7 @@ Resume-Job Team`,
         console.log('Email sent: ' + info.response);
       }
     });
+    */
 
     res.status(201).json(application);
   } catch (error) {
