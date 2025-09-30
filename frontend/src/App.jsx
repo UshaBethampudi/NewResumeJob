@@ -9,7 +9,7 @@ import EditResume from "./components/EditResume"
 import UserProvider from './context/userContext';
 import AtsScorer from './pages/AtsScorer';
 import Jobs from './pages/Jobs';
-import MyApplications from './pages/MyApplications';
+import MyApplications from './pages/myapplications';
 
 const App = () => {
   return (
