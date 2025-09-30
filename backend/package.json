@@ -18,7 +18,7 @@
     "googleapis": "^160.0.0",
     "jsonwebtoken": "^9.0.2",
     "mammoth": "^1.11.0",
-    "mongoose": "^7.0.0",
+    "mongoose": "^6.12.0",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^7.0.6",
     "pdf-parse": "^1.1.1"
