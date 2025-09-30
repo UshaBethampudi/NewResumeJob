@@ -3,6 +3,9 @@ import mongoose from 'mongoose';
 
 const connectDB = async () => {
   try {
+    // Suppress the strictQuery deprecation warning
+    mongoose.set('strictQuery', false);
+    
     await mongoose.connect(process.env.MONGO_URI);
     console.log('DB CONNECTED');
   } catch (error) {
