@@ -11,7 +11,15 @@ const createApplication = async (req, res) => {
     // Send confirmation email after successful application
     const job = jobExamples.find(j => j._id.toString() === application.jobId);
     if (job && application.email) {
-      sendApplicationConfirmation(application.email, job.jobTitle);
+      console.log(`📧 Attempting to send email to: ${application.email} for job: ${job.jobTitle}`);
+      try {
+        await sendApplicationConfirmation(application.email, job.jobTitle);
+        console.log(`✅ Email sent successfully to ${application.email}`);
+      } catch (emailError) {
+        console.error(`❌ Failed to send email to ${application.email}:`, emailError.message);
+      }
+    } else {
+      console.log(`⚠️ Email not sent - Job: ${!!job}, Email: ${application.email}`);
     }
     
     res.status(201).json(application);
