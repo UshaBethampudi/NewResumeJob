@@ -8,24 +8,13 @@ const createApplication = async (req, res) => {
     const application = new Application(req.body);
     await application.save();
     
-    // Send response first, then handle email in background
-    res.status(201).json(application);
-    
-    // Send confirmation email after successful application (non-blocking)
+    // Send confirmation email after successful application
     const job = jobExamples.find(j => j._id.toString() === application.jobId);
     if (job && application.email) {
-      console.log(`📧 Attempting to send email to: ${application.email} for job: ${job.jobTitle}`);
-      // Don't await - let it run in background
-      sendApplicationConfirmation(application.email, job.jobTitle)
-        .then(() => {
-          console.log(`✅ Email sent successfully to ${application.email}`);
-        })
-        .catch((emailError) => {
-          console.error(`❌ Failed to send email to ${application.email}:`, emailError.message);
-        });
-    } else {
-      console.log(`⚠️ Email not sent - Job: ${!!job}, Email: ${application.email}`);
+      sendApplicationConfirmation(application.email, job.jobTitle);
     }
+    
+    res.status(201).json(application);
   } catch (error) {
     res.status(500).json({ message: 'Error creating application', error });
   }
